@@ -1,6 +1,5 @@
 package com.gyl.CrudGyl.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Producto {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,6 +25,4 @@ public class Producto {
 
     @Column(nullable=false)
     private Integer stock;
-
-
 }

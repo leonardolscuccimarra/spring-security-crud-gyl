@@ -5,9 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class CrudGylApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(CrudGylApplication.class, args);
-	}
-
+	public static void main(String[] args) {SpringApplication.run(CrudGylApplication.class, args);}
 }
+

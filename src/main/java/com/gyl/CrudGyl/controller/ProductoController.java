@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoController {
-
     private final ProductoService productoService;
 
     public ProductoController(ProductoService productoService) {
@@ -30,7 +29,4 @@ public class ProductoController {
     public List<ProductResponseDto> listar(){
         return productoService.listar();
     }
-
-
-
 }
