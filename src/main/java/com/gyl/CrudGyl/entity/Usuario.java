@@ -77,7 +77,7 @@ public class Usuario implements UserDetails{
      */
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired() || true;
+        return true;
     }
 
     /**
@@ -90,7 +90,7 @@ public class Usuario implements UserDetails{
      */
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked() || true;
+        return true;
     }
 
     /**
@@ -103,7 +103,7 @@ public class Usuario implements UserDetails{
      */
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired() || true;
+        return true;
     }
 
     /**
@@ -116,6 +116,6 @@ public class Usuario implements UserDetails{
      */
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled() || true;
+        return true;
     }
 }
