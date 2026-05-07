@@ -34,7 +34,7 @@ import java.util.List;
  * - Qué tipo de encriptación se usa para las contraseñas.
  * - Cómo Spring obtiene los usuarios desde la base de datos.
  *
- * La aplicaciòn utiliza autenticación stateless basada en JWT,
+ * La aplicación utiliza autenticación stateless basada en JWT,
  * por lo tanto no se usan sesiones HTTP tradicionales.
  */
 @Configuration
@@ -59,7 +59,7 @@ public class SecurityConfiguration {
      *
      * @param http configuración HTTP de Spring Security
      * @return cadena de filtros de seguridad
-     * @throws Exception posible exceción de configuración
+     * @throws Exception posible excepción de configuración
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -78,8 +78,23 @@ public class SecurityConfiguration {
                 .build();
     }
 
-
-
+    /**
+     * NOMBRE: corsConfigurationSource
+     *
+     * PROPOSITO: Configura las políticas CORS de la aplicación.
+     *
+     * Define:
+     * - Orígenes permitidos.
+     * - Métodos HTTP permitidos.
+     * - Headers permitidos.
+     * - Headers expuestos al cliente.
+     * - Permiso para envío de credenciales.
+     *
+     * Esto permite la comunicación entre el frontend
+     * y el backend ubicados en diferentes dominios o puertos.
+     *
+     * @return configuración CORS utilizada por Spring Security.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -105,7 +120,7 @@ public class SecurityConfiguration {
      *  - generar autenticación.
      *
      * @param config -> configuración de autenticación.
-     * @return AuthenticationManeger.
+     * @return AuthenticationManager.
      * @throws Exception posible error de configuración.
      */
     @Bean
@@ -120,7 +135,7 @@ public class SecurityConfiguration {
      *
      * Usa:
      * - UserDetailsService personalizado.
-     * - PaswordEncoder BCrypt
+     * - PasswordEncoder BCrypt
      *
      * DaoAuthenticationProvider compara:
      * - contraseña enviada.
@@ -135,6 +150,18 @@ public class SecurityConfiguration {
         return authProvider;
     }
 
+    /**
+     * NOMBRE: passwordEncoder
+     *
+     * PROPOSITO: Define el algoritmo de encriptación
+     * utilizado para almacenar contraseñas.
+     *
+     * BCrypt genera hashes seguros y es recomendado
+     * por Spring Security para almacenamiento de passwords,
+     * nunca se almacenan en texto plano.
+     *
+     * @return instancia de BCryptPasswordEncoder.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
