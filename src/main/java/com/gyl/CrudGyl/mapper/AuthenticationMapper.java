@@ -4,11 +4,7 @@ import com.gyl.CrudGyl.dto.producto.ProductResponseDto;
 import com.gyl.CrudGyl.dto.producto.ProductoRequestDto;
 import com.gyl.CrudGyl.entity.Producto;
 
-public class ProductoMapper {
-    private ProductoMapper() {
-
-    }
-
+public class AuthenticationMapper {
     public static Producto toEntity(ProductoRequestDto dto){
         Producto producto = new Producto();
         producto.setNombre(dto.nombre());

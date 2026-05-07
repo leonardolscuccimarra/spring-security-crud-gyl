@@ -1,4 +1,4 @@
-package com.gyl.CrudGyl.dto;
+package com.gyl.CrudGyl.dto.producto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
