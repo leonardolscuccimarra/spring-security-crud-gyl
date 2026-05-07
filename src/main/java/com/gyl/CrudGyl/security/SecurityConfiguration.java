@@ -79,20 +79,7 @@ public class SecurityConfiguration {
     }
 
 
-    /**
-     *  -- Bean, encargado de manejar la autenticación --
-     *
-     *  NOMBRE: authenticationManeger
-     *
-     *  PROPOSITO: Spring lo usa internamente para:
-     *  - validar usuario.
-     *  - validar contraseña.
-     *  - generar autenticación.
-     *
-     * @param config -> configuración de autenticación.
-     * @return AuthenticationManeger.
-     * @throws Exception posible error de configuración.
-     */
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -107,6 +94,20 @@ public class SecurityConfiguration {
         return source;
     }
 
+    /**
+     *  -- Bean, encargado de manejar la autenticación --
+     *
+     *  NOMBRE: authenticationManeger
+     *
+     *  PROPOSITO: Spring lo usa internamente para:
+     *  - validar usuario.
+     *  - validar contraseña.
+     *  - generar autenticación.
+     *
+     * @param config -> configuración de autenticación.
+     * @return AuthenticationManeger.
+     * @throws Exception posible error de configuración.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
