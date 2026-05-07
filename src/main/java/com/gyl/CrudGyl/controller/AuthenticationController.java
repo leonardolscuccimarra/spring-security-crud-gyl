@@ -1,7 +1,9 @@
 package com.gyl.CrudGyl.controller;
 
+import com.gyl.CrudGyl.dto.usuario.request.LoginRequestDTO;
 import com.gyl.CrudGyl.dto.usuario.request.RegistroRequestDTO;
 import com.gyl.CrudGyl.dto.usuario.response.RegistroResponseDTO;
+import com.gyl.CrudGyl.dto.usuario.response.TokenResponseDTO;
 import com.gyl.CrudGyl.service.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -24,4 +26,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @ResponseStatus
+    public TokenResponseDTO autenticar(@Valid @RequestBody LoginRequestDTO dto) {
+        return authenticationService.login(dto);
+    }
 }

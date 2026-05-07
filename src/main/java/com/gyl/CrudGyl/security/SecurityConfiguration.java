@@ -18,6 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
+/**
+ * NOMBRE: SecurityConfiguration
+ *
+ * PROPOSITO: Esta clase se encarga de definir:
+ * - Cómo se autentican los usuarios.
+ * - Qué rutas estan protegidas.
+ * - Qué rutas son públicas.
+ * - Qué filtro
+ */
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor

@@ -4,11 +4,15 @@ import com.gyl.CrudGyl.dto.usuario.request.LoginRequestDTO;
 import com.gyl.CrudGyl.dto.usuario.request.RegistroRequestDTO;
 import com.gyl.CrudGyl.dto.usuario.response.RegistroResponseDTO;
 import com.gyl.CrudGyl.dto.usuario.response.TokenResponseDTO;
+import com.gyl.CrudGyl.entity.Role;
+import com.gyl.CrudGyl.entity.Usuario;
 import com.gyl.CrudGyl.repository.UsuarioRepository;
 import com.gyl.CrudGyl.security.TokenService;
 import com.gyl.CrudGyl.service.AuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +27,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public RegistroResponseDTO registrar(RegistroRequestDTO dto) {
-        return dto;
+        Usuario usuario = Usuario.builder()
+                .username(dto.username())
+                .password(passwordEncoder.encode(dto.password()))
+                .rol(Role.USER)
+                .build();
+
+        usuarioRepository.save(usuario);
+
+        return new RegistroResponseDTO(usuario.getUsername(), usuario.getPassword());
     }
 
     @Override
     public TokenResponseDTO login(LoginRequestDTO dto) {
-        return new TokenResponseDTO();
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(dto.username(),dto.password())
+        );
+
+        UserDetails usuario = usuarioRepository.findByUsername(dto.username())
+                .orElseThrow();
+
+        String token = tokenService.getToken(usuario);
+        return new TokenResponseDTO(token);
     }
 }
