@@ -1,3 +1,5 @@
 package com.gyl.CrudGyl.dto.usuario.response;
 
-public record RegistroResponseDTO(String usuario, String descripcion) {}
+public record RegistroResponseDTO(String usuario,
+                                  String passEncript
+) {}
