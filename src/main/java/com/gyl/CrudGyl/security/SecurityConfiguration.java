@@ -24,9 +24,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  *
  * PROPOSITO: Esta clase se encarga de definir:
  * - Cómo se autentican los usuarios.
- * - Qué rutas estan protegidas.
+ * - Qué rutas están protegidas.
  * - Qué rutas son públicas.
- * - Qué filtro
+ * - Qué filtro JWT se ejecuta
+ * - Qué tipo de encriptación se usa para las contraseñas.
+ * - Cómo Spring obtiene los usuarios desde la base de datos.
+ *
+ * La aplicaciòn utiliza autenticación stateless basada en JWT,
+ * por lo tanto no se usan sesiones HTTP tradicionales.
  */
 @Configuration
 @EnableWebSecurity
@@ -35,6 +40,23 @@ public class SecurityConfiguration {
     private final TokenAuthFilter tokenAuthFilter;
     private final UsuarioRepository usuarioRepository;
 
+    /**
+     * NOMBRE: securityFilterChain
+     *
+     * PROPOSITO: Configuración principal de seguridad HTTP.
+     *
+     * Define:
+     *  - Desactivación de CSRF.
+     *  - Endpoints públicos.
+     *  - Endpoints protegidos.
+     *  - Políticas stateless.
+     *  - Provider de autenticación.
+     *  - Filtro JWT personalizado.
+     *
+     * @param http configuración HTTP de Spring Security
+     * @return cadena de filtros de seguridad
+     * @throws Exception posible exceción de configuración
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -51,11 +73,41 @@ public class SecurityConfiguration {
                 .build();
     }
 
+
+    /**
+     *  -- Bean, encargado de manejar la autenticación --
+     *
+     *  NOMBRE: authenticationManeger
+     *
+     *  PROPOSITO: Spring lo usa internamente para:
+     *  - validar usuario.
+     *  - validar contraseña.
+     *  - generar autenticación.
+     *
+     * @param config -> configuración de autenticación.
+     * @return AuthenticationManeger.
+     * @throws Exception posible error de configuración.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * NOMBRE: authenticationProvider
+     *
+     * PROPOSITO: Provider de autenticación principal
+     *
+     * Usa:
+     * - UserDetailsService personalizado.
+     * - PaswordEncoder BCrypt
+     *
+     * DaoAuthenticationProvider compara:
+     * - contraseña enviada.
+     * - contraseña encriptada almacenada.
+     *
+     * @return AuthenticationProvider configurado
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService());
