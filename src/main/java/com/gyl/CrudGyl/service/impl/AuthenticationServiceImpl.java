@@ -4,8 +4,8 @@ import com.gyl.CrudGyl.dto.usuario.request.LoginRequestDTO;
 import com.gyl.CrudGyl.dto.usuario.request.RegistroRequestDTO;
 import com.gyl.CrudGyl.dto.usuario.response.RegistroResponseDTO;
 import com.gyl.CrudGyl.dto.usuario.response.TokenResponseDTO;
-import com.gyl.CrudGyl.entity.Role;
 import com.gyl.CrudGyl.entity.Usuario;
+import com.gyl.CrudGyl.mapper.UsuarioMapper;
 import com.gyl.CrudGyl.repository.UsuarioRepository;
 import com.gyl.CrudGyl.security.TokenService;
 import com.gyl.CrudGyl.service.AuthenticationService;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
-
     private final UsuarioRepository usuarioRepository;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
@@ -27,11 +26,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public RegistroResponseDTO registrar(RegistroRequestDTO dto) {
-        Usuario usuario = Usuario.builder()
-                .username(dto.username())
-                .password(passwordEncoder.encode(dto.password()))
-                .rol(Role.USER)
-                .build();
+        String password = passwordEncoder.encode(dto.password());
+
+        Usuario usuario = UsuarioMapper.toEntity(dto, password);
 
         usuarioRepository.save(usuario);
 
@@ -40,7 +37,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public TokenResponseDTO login(LoginRequestDTO dto) {
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.username(),dto.password())
         );
